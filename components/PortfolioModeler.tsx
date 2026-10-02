@@ -18,8 +18,8 @@ const STAT_LABEL: Record<'expReturn' | 'volatility' | 'sharpe' | 'severeDrawdown
   expReturn: 'Expected Return', volatility: 'Volatility', sharpe: 'Sharpe Ratio', severeDrawdown: 'Severe Drawdown',
 };
 
-function buildAllocation(profile: RiskProfile, sub: SubScores, sectors: string[], downtrendStyle: string) {
-  const alloc = computeAllocation(0, profile.vehicle, sectors, undefined, downtrendStyle, sub);
+function buildAllocation(profile: RiskProfile, sub: SubScores, sectors: string[], downtrendStyle: string, skipFrontier = true) {
+  const alloc = computeAllocation(0, profile.vehicle, sectors, undefined, downtrendStyle, sub, skipFrontier);
   return profile.selectedStocks?.length ? applyStockPicks(alloc, profile.selectedStocks) : alloc;
 }
 
@@ -63,8 +63,11 @@ export default function PortfolioModeler({ profile, onApply }: { profile: RiskPr
 
   const handleApply = () => {
     const { blurb } = scoreToProfile(score);
+    // recompute once with the frontier included (skipped in the live preview for responsiveness)
+    // so the saved profile's Portfolio page frontier chart still has data
+    const finalAllocation = buildAllocation(profile, sub, sectors, downtrendStyle, false);
     onApply({
-      ...profile, score, bucket, blurb, sectors, downtrendStyle, allocation: modeled, generated_at: new Date().toISOString(),
+      ...profile, score, bucket, blurb, sectors, downtrendStyle, allocation: finalAllocation, generated_at: new Date().toISOString(),
     });
     setApplied(true);
   };
@@ -77,14 +80,14 @@ export default function PortfolioModeler({ profile, onApply }: { profile: RiskPr
 
   return (
     <div className="terminal-card p-4 rounded-sm space-y-5">
-      <div className="flex justify-between items-center border-b border-[#252e38] pb-2">
-        <h3 className="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-1.5"><SlidersHorizontal size={14} className="text-[#58a6ff]" /> Model It — {bucket} ({score}/100)</h3>
-        <div className="flex gap-2">
-          <button onClick={handleReset} className="text-[9px] text-slate-400 hover:text-white font-bold uppercase flex items-center gap-1"><RotateCcw size={11} /> Reset</button>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 border-b border-[#252e38] pb-2">
+        <h3 className="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-1.5"><SlidersHorizontal size={14} className="text-[#58a6ff] shrink-0" /> Model It — {bucket} ({score}/100)</h3>
+        <div className="flex gap-2 items-center shrink-0">
+          <button onClick={handleReset} className="text-[9px] text-slate-400 hover:text-white font-bold uppercase flex items-center gap-1 shrink-0"><RotateCcw size={11} /> Reset</button>
           <button
             onClick={handleApply}
             disabled={!dirty && !applied}
-            className={`px-3 py-1 text-[9px] font-bold uppercase rounded-sm border flex items-center gap-1.5 ${applied ? 'bg-green-950 border-green-800 text-[#4ade80]' : 'bg-[#21262d] border-[#58a6ff] text-[#58a6ff]'} disabled:opacity-40`}
+            className={`px-3 py-1.5 text-[9px] font-bold uppercase rounded-sm border flex items-center gap-1.5 whitespace-nowrap shrink-0 ${applied ? 'bg-green-950 border-green-800 text-[#4ade80]' : 'bg-[#21262d] border-[#58a6ff] text-[#58a6ff]'} disabled:opacity-40`}
           >
             {applied ? <><Check size={11} /> Applied</> : 'Apply This Model'}
           </button>

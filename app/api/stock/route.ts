@@ -129,19 +129,21 @@ export async function GET(request: NextRequest) {
       : oneYear;
 
     const companyName = meta.longName || meta.shortName || baseData.companyName;
+    const liveFields = ['price', 'dailyChange', 'dailyChangePct', 'volume', 'chartData'];
     const fiftyTwoWeekRange = (meta.fiftyTwoWeekLow && meta.fiftyTwoWeekHigh)
       ? `$${meta.fiftyTwoWeekLow.toFixed(2)} - $${meta.fiftyTwoWeekHigh.toFixed(2)}`
-      : undefined;
+      : `$${(latestPrice * 0.75).toFixed(2)} - $${(latestPrice * 1.25).toFixed(2)}`;
+    if (meta.fiftyTwoWeekLow && meta.fiftyTwoWeekHigh) liveFields.push('fiftyTwoWeekRange');
+    if (meta.longName || meta.shortName) liveFields.push('companyName');
 
     return NextResponse.json({
-      ...baseData, ticker, companyName,
+      ...baseData, ticker, companyName, fiftyTwoWeekRange,
       price: latestPrice, dailyChange, dailyChangePct,
-      ...(fiftyTwoWeekRange ? { fiftyTwoWeekRange } : {}),
       volume: meta.regularMarketVolume ?? null,
       dayRange: (meta.regularMarketDayLow && meta.regularMarketDayHigh)
         ? `$${meta.regularMarketDayLow.toFixed(2)} - $${meta.regularMarketDayHigh.toFixed(2)}` : null,
       exchange: meta.fullExchangeName ?? null,
-      liveFields: ['price', 'dailyChange', 'dailyChangePct', 'fiftyTwoWeekRange', 'volume', 'dayRange', 'companyName', 'chartData'],
+      liveFields,
       chartData: { '1M': oneMonth, '6M': sixMonth, '1Y': oneYear, '5Y': fiveYear },
       call_atm: `$${(latestPrice * 0.045).toFixed(2)}`, put_atm: `$${(latestPrice * 0.041).toFixed(2)}`,
       call_otm: `$${(latestPrice * 0.015).toFixed(2)}`, put_otm: `$${(latestPrice * 0.082).toFixed(2)}`

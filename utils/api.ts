@@ -43,46 +43,6 @@ export interface Thesis {
   created_at?: string;
 }
 
-export const mockMetrics = {
-  totalPortfolioValue: 124850.42, totalReturnPct: 24.85, dailyReturnPct: 1.12, benchmarkReturnPct: 18.40,
-  portfolioBeta: 1.18, maxDrawdownPct: -8.45, cashBalance: 15430.00,
-  bestHolding: { ticker: "NVDA", returnPct: 84.20 }, worstHolding: { ticker: "BA", returnPct: -18.45 },
-  recentThesisChanges: [
-    { ticker: "MSFT", title: "Enterprise Copilot Growth", status: "Strengthened", timestamp: "2026-07-18 14:32" },
-    { ticker: "LMT", title: "Global Defense Spends", status: "Unchanged", timestamp: "2026-07-18 11:15" },
-    { ticker: "AAPL", title: "Consumer Hardware Cycle", status: "Weakened", timestamp: "2026-07-17 09:40" }
-  ],
-  recentBotTrades: [
-    { ticker: "TSLA", action: "BUY" as const, price: 184.20, strategy: "MeanReversion_1H", timestamp: "10 mins ago" },
-    { ticker: "AMD", action: "SELL" as const, price: 154.60, strategy: "RSI_Breakout_15M", timestamp: "1 hour ago" },
-    { ticker: "XOM", action: "BUY" as const, price: 114.30, strategy: "MacroTrendFollower", timestamp: "4 hours ago" }
-  ],
-  watchlistAlerts: [
-    { ticker: "PLTR", message: "Price crossed Target $25.00 threshold", type: "PRICE_CROSS" as const },
-    { ticker: "RTX", message: "Thesis target review date is overdue", type: "THESIS_DUE" as const },
-    { ticker: "AVGO", message: "Daily movement (> 5.4%) exceeds historical limits", type: "VOL_ALERT" as const }
-  ]
-};
-
-export const mockPortfolioHistory = [
-  { date: 'Jan', portfolio: 100000, benchmark: 100000 },
-  { date: 'Feb', portfolio: 104200, benchmark: 102100 },
-  { date: 'Mar', portfolio: 102100, benchmark: 101500 },
-  { date: 'Apr', portfolio: 108400, benchmark: 104300 },
-  { date: 'May', portfolio: 112100, benchmark: 106100 },
-  { date: 'Jun', portfolio: 118900, benchmark: 111400 },
-  { date: 'Jul', portfolio: 124850, benchmark: 118400 },
-];
-
-export const mockAllocation = [
-  { name: 'Technology', value: 55 },
-  { name: 'Defense', value: 25 },
-  { name: 'Energy', value: 10 },
-  { name: 'Cash', value: 10 },
-];
-
-export const ALLOCATION_COLORS = ['#4ade80', '#58a6ff', '#fb923c', '#8b949e'];
-
 export async function fetchStockData(symbol: string): Promise<StockData> {
   const res = await fetch(`/api/stock?symbol=${encodeURIComponent(symbol.trim().toUpperCase())}`);
   if (!res.ok) throw new Error('Failed to fetch financial metrics from API');

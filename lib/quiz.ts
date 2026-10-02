@@ -184,6 +184,9 @@ export function computeAllocation(
   answers?: Record<string, number>,
   downtrendStyle?: string | null,
   subOverride?: SubScores,
+  /** the frontier recomputes ~11 full optimizer passes — skip it for callers (e.g. the live
+   *  slider modeler) that don't render it, so dragging a slider stays snappy. */
+  skipFrontier = false,
 ): Allocation {
   const veh = vehicle && VEHICLE_HOLDINGS[vehicle] ? vehicle : 'mix';
   const sectors = (sectorPrefs || []).filter(x => x !== 'none');
@@ -219,7 +222,7 @@ export function computeAllocation(
     vehicle: veh, sectors,
     stats, subScores: sub,
     targetVol: opt.targetVol, achievedVol: opt.achievedVol,
-    frontier: frontier(sub, sectors, downtrendStyle ?? null),
+    frontier: skipFrontier ? [] : frontier(sub, sectors, downtrendStyle ?? null),
     rebalancing: DOWNTREND_POLICY[downtrendStyle ?? 'balanced'] ?? DOWNTREND_POLICY.balanced,
   };
 }
