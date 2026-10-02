@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #090d13;
+  color: #c9d1d9;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* shared component utilities referenced across views */
+.terminal-card {
+  background-color: #121820;
+  border: 1px solid #252e38;
+}
+.green { color: #4ade80; }
+.highlight { color: #58a6ff; }
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d13;
+}
+::-webkit-scrollbar-thumb {
+  background: #252e38;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #303c4a;
+}
