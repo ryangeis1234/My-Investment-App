@@ -137,8 +137,17 @@ export default function Home() {
             </button>
           </form>
           {isMock && (
+            <button
+              type="button" disabled={authLoading}
+              onClick={async () => { setAuthLoading(true); try { await signIn('demo@strategylab.app'); } finally { setAuthLoading(false); } }}
+              className="w-full bg-[#090d13] border border-[#58a6ff] hover:bg-[#161b22] text-[#58a6ff] py-2 text-[10px] font-bold tracking-widest uppercase transition-all rounded-sm flex justify-center items-center gap-2"
+            >
+              <Sparkles size={12} /> Try the demo — no email needed
+            </button>
+          )}
+          {isMock && (
             <div className="bg-blue-950/20 border border-blue-900/50 p-2.5 rounded text-[10px] leading-relaxed text-blue-200 font-mono">
-              <strong>LOCAL OFFLINE DEVELOPMENT MODE:</strong> Supabase environment keys are missing. Entering any email activates a simulated local storage development session instantly [1].
+              <strong>LOCAL DEMO MODE:</strong> No account server is connected, so sign-in is simulated and your data stays in this browser. Any email works, or use the demo button.
             </div>
           )}
         </div>
