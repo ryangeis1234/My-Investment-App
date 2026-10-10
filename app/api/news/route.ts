@@ -41,7 +41,7 @@ function parseRssItems(xml: string, limit: number) {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const symbol = searchParams.get('symbol');
-  const feedSymbols = symbol ? symbol.toUpperCase() : MARKET_SYMBOLS;
+  const feedSymbols = symbol ? symbol.toUpperCase().replace('.', '-') : MARKET_SYMBOLS;
 
   try {
     const res = await fetch(

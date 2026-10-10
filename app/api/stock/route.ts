@@ -97,8 +97,8 @@ export async function GET(request: NextRequest) {
 
   try {
     const [daily, weekly] = await Promise.all([
-      fetchChart(ticker, '1y', '1d'),
-      fetchChart(ticker, '5y', '1wk'),
+      fetchChart(ticker.replace('.', '-'), '1y', '1d'),   // Yahoo writes share classes with a hyphen (BRK-B)
+      fetchChart(ticker.replace('.', '-'), '5y', '1wk'),
     ]);
     if (!daily) throw new Error('No chart data for symbol');
 

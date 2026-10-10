@@ -5,6 +5,7 @@ import { Briefcase, DollarSign, SlidersHorizontal, ChevronDown, ChevronUp } from
 import { CATEGORY_NOTES, DOWNTREND_STYLE_LABEL, VEHICLE_LABEL, RiskProfile } from '../lib/quiz';
 import { CMA_SOURCES } from '../lib/portfolio';
 import PortfolioModeler from './PortfolioModeler';
+import BacktestPanel from './BacktestPanel';
 import {
   ResponsiveContainer, Scatter, ScatterChart, XAxis, YAxis, Tooltip, ZAxis, CartesianGrid,
 } from 'recharts';
@@ -143,6 +144,8 @@ export default function PortfolioView({
           </table>
         </div>
       </div>
+
+      <BacktestPanel holdings={allocation.holdings} />
 
       <div className="bg-[#121820] p-4 border border-[#252e38] rounded-sm text-xs text-slate-400 leading-relaxed">
         <span className="font-bold text-white uppercase text-[10px] block mb-1">Rebalancing policy</span>

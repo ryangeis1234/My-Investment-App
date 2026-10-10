@@ -98,7 +98,7 @@ export default function Home() {
           <div className="h-full flex flex-col items-center justify-center text-center p-8 bg-[#121820] rounded border border-[#252e38] max-w-xl mx-auto my-12">
             <Settings className="w-12 h-12 text-[#58a6ff] mb-4 animate-spin" />
             <p className="text-sm font-bold text-white uppercase tracking-wider mb-2">{currentPage.replace('-', ' ')} Page</p>
-            <p className="text-xs text-slate-400">This module is under construction and scheduled for integration in subsequent development phases [1].</p>
+            <p className="text-xs text-slate-400">This page isn't available yet.</p>
           </div>
         );
     }
@@ -218,7 +218,7 @@ export default function Home() {
         <div className="p-3 border-t border-[#252e38] bg-[#0d1117]/50 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-[#4ade80]" />
-            {(!isCollapsed || isOpenMobile) && <span className="text-[10px] text-white font-bold font-mono">SQL CONNECTED</span>}
+            {(!isCollapsed || isOpenMobile) && <span className="text-[10px] text-white font-bold font-mono">{isMock ? 'LOCAL DEMO MODE' : 'CONNECTED'}</span>}
           </div>
           {(!isCollapsed || isOpenMobile) && (
             <button onClick={() => signOut()} className="text-[8px] bg-red-950 text-red-200 border border-red-900 px-1 py-0.5 rounded font-bold hover:bg-red-900 hover:text-white transition-all font-mono">LOGOUT</button>
@@ -240,14 +240,14 @@ export default function Home() {
               <span className="text-[10px] text-slate-400 block font-bold">ANALYST SESSION</span>
               <span className="font-bold text-[#58a6ff]">{user.email}</span>
             </div>
-            <div className="w-8 h-8 rounded bg-[#21262d] border border-[#30363d] flex items-center justify-center font-bold text-white text-xs">QA</div>
+            <div className="w-8 h-8 rounded bg-[#21262d] border border-[#30363d] flex items-center justify-center font-bold text-white text-xs">{(user.email || '?').charAt(0).toUpperCase()}</div>
           </div>
         </header>
 
         <main className="flex-grow p-4 sm:p-6 overflow-y-auto">
           {renderActivePage()}
           <footer className="mt-8 pt-4 border-t border-[#252e38] text-center text-slate-400 text-[9px] leading-relaxed">
-            This Strategy Lab software is for research and educational purposes only. It does not offer customized financial advisory solutions, nor does it connect to dynamic trading broker systems [1].
+            This Strategy Lab software is for research and educational purposes only. It does not offer customized financial advisory solutions, nor does it connect to dynamic trading broker systems.
           </footer>
         </main>
       </div>

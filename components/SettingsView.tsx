@@ -50,7 +50,7 @@ export default function SettingsView({
               <li>Another server route to exchange that <code>public_token</code> for a permanent <code>access_token</code>, stored server-side (e.g. in Supabase, encrypted).</li>
               <li>Calls to Plaid's <code>/accounts/balance/get</code> or <code>/investments/holdings/get</code> using that access token to pull real data.</li>
             </ol>
-            <p>None of this can run without a live server, which is why it didn't work when tried directly — that's the actual next build step, not a bug.</p>
+            <p>This needs a live backend to hold the secret keys safely, so it is planned for a future version rather than included in this demo.</p>
           </div>
         )}
       </div>
